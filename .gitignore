@@ -18,3 +18,8 @@ dist/
 *.egg-info/
 .DS_Store
 Thumbs.db
+
+# Local models, captured datasets, and experiment outputs.
+/models/
+/datasets/
+/results/

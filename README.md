@@ -1,8 +1,18 @@
 # FaceDetect
 
-基于 OpenCV Haar 级联分类器的实时人脸检测工具。打开摄像头后，在画面中标出人脸并显示 FPS 和人脸数量。
+基于 OpenCV 的实时视觉检测与实验工具，支持摄像头人脸检测、屏幕人头检测、可选的 Windows 鼠标跟随，以及跨游戏画风的准确率和延迟评测。
 
-当前功能是**人脸检测**：定位画面中的人脸，不包含姓名识别、人脸注册或身份比对。
+摄像头模式定位人脸，屏幕模式定位模型训练的头部类别。这里的“识别”指位置检测，不包含姓名识别、人脸注册或身份比对。
+
+屏幕研究模式支持 Haar/OpenCV 基线、YOLO ONNX/OpenCV DNN，以及可选的 ONNX Runtime，详见 [屏幕检测、鼠标跟随与算法对比实验](docs/experiments.md)。摄像头仍使用原来的 `face_detection.py` 命令。
+
+```bash
+python -m pip install -r requirements-yolo.txt
+python download_model.py
+python screen_detection.py --detector yolo --backend onnxruntime --model models/anime-head.onnx --frames 300
+```
+
+参考模型用于动漫风格人头检测；其他游戏画风需要用对应数据集验证或替换模型。默认只观察和记录数据，鼠标跟随通过 `--aim` 显式启用。
 
 ## 安装
 
@@ -74,7 +84,7 @@ FPS 每 30 帧更新一次，测量值持续显示；首次测量完成前显示
 python -m unittest discover -s tests -v
 ```
 
-测试使用模拟摄像头覆盖异常清理、FPS 显示、退出行为和参数校验，并使用真实 OpenCV 验证等比例缩放与自带分类器，不需要物理摄像头。GitHub Actions 在 Windows、macOS、Linux 上执行这些测试。
+测试覆盖摄像头异常清理、FPS 显示、屏幕区域坐标、YOLO 后处理、鼠标启用条件和评测报告。小型合成 ONNX 测试模型用于真实推理集成验证，不是已训练的人头模型。测试不截取实际桌面、不移动真实鼠标，也不需要物理摄像头。GitHub Actions 在 Windows、macOS、Linux 上执行这些测试。
 
 如需使用 PyInstaller 打包，可另外安装 `requirements-build.txt` 中的可选依赖。跨平台发布时应在目标系统上打包，并确认包含 OpenCV 的 `data/` 分类器目录。
 
