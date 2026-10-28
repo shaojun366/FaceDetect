@@ -1,0 +1,20 @@
+# Local Python environments (the original environment lived at the repo root).
+.venv*/
+venv/
+/bin/
+/lib/
+/include/
+/Scripts/
+/pyvenv.cfg
+
+# Generated files and local maintenance tools.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.maintenance-tmp/
+build/
+dist/
+*.spec
+*.egg-info/
+.DS_Store
+Thumbs.db
